@@ -200,7 +200,7 @@ void sleep_led_toggle(void) {
     STM32_TIM14->CR1 ^= STM32_TIM_CR1_CEN;
 }
 
-#elif defined(SN32F24xx) && defined(RGB_MATRIX_ENABLE)
+#elif defined(SN32F2xx) && defined(RGB_MATRIX_ENABLE)
 
 //for the purpose of sleep_led implementation RGB_MATRIX_NONE will convey intention to disable matrix.
 #ifndef SLEEP_LED_MODE_ANIMATION
@@ -216,19 +216,19 @@ void sleep_led_enable(void) {
     current_mode = rgb_matrix_get_mode();
     current_state = rgb_matrix_is_enabled();
     if (SLEEP_LED_MODE_ANIMATION == RGB_MATRIX_NONE) {
-        rgb_matrix_disable();
+        rgb_matrix_disable_noeeprom();
     }
     else {
-        rgb_matrix_mode(SLEEP_LED_MODE_ANIMATION);
+        rgb_matrix_mode_noeeprom(SLEEP_LED_MODE_ANIMATION);
     }
 }
 
 void sleep_led_disable(void) {
     if (current_state != rgb_matrix_is_enabled()) {
-        rgb_matrix_enable();
+        rgb_matrix_enable_noeeprom();
     }
     if (current_mode != rgb_matrix_get_mode()) {
-        rgb_matrix_mode(current_mode);
+        rgb_matrix_mode_noeeprom(current_mode);
     }
 }
 
